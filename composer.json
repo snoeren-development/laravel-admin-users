@@ -1,0 +1,42 @@
+{
+    "name": "snoeren-development/laravel-admin-users",
+    "description": "Define and check for admin users in your application!",
+    "require": {
+        "php": "^7.3|^8.0",
+        "illuminate/support": "^7.0|^8.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.5"
+    },
+    "autoload": {
+        "psr-4": {
+            "SnoerenDevelopment\\AdminUsers\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "SnoerenDevelopment\\AdminUsers\\Tests\\": "tests/"
+        }
+    },
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Michael Snoeren",
+            "email": "info@snoerendevelopment.nl"
+        }
+    ],
+    "minimum-stability": "stable",
+    "scripts": {
+        "test": "vendor/bin/phpunit ./tests"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "SnoerenDevelopment\\AdminUsers\\AdminUsersServiceProvider"
+            ]
+        }
+    }
+}
