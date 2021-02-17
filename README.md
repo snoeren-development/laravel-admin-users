@@ -76,3 +76,10 @@ You can publish the configuration file to your project using
 ```bash
 composer test
 ```
+
+## Credits
+- [Michael Snoeren](https://github.com/MSnoeren)
+- [All Contributors](https://github.com/snoeren-development/laravel-admin-users/graphs/contributors)
+
+## License
+The MIT license. See [LICENSE](LICENSE) for more information.
