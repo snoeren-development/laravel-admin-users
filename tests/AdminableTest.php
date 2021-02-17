@@ -1,10 +1,7 @@
 <?php
 declare(strict_types = 1);
 
-namespace SnoerenDevelopment\AdminUsers;
-
-use Orchestra\Testbench\TestCase;
-use SnoerenDevelopment\AdminUsers\Tests\User;
+namespace SnoerenDevelopment\AdminUsers\Tests;
 
 class AdminableTest extends TestCase
 {

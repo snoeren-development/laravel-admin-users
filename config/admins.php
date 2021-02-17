@@ -13,6 +13,6 @@ return [
     |
     */
 
-    'admins' => (array) explode(',', env('ADMINS')),
+    'admins' => (array) explode(',', env('ADMINS', '')),
 
 ];
