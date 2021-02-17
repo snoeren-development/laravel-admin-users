@@ -10,7 +10,7 @@ class AdminableTest extends TestCase
      *
      * @return void
      */
-    public function testUserHasIsAdminMethod()
+    public function testUserHasIsAdminMethod(): void
     {
         $this->assertTrue(method_exists(new User, 'isAdmin'));
     }
@@ -21,11 +21,9 @@ class AdminableTest extends TestCase
      *
      * @return void
      */
-    public function testIsAdminReturnsTrue()
+    public function testIsAdminReturnsTrue(): void
     {
-        $this->app['config']->set('admins.admins', ['test@example.com', 'other@email.com']);
-
-        $this->assertTrue((new User(['email' => 'test@example.com']))->isAdmin());
+        $this->assertTrue((new User(['email' => 'admin@example.com']))->isAdmin());
     }
 
     /**
@@ -34,10 +32,8 @@ class AdminableTest extends TestCase
      *
      * @return void
      */
-    public function testIsAdminReturnsFalse()
+    public function testIsAdminReturnsFalse(): void
     {
-        $this->app['config']->set('admins.admins', ['test@example.com', 'other@email.com']);
-
-        $this->assertFalse((new User(['email' => 'someone@gmail.com']))->isAdmin());
+        $this->assertFalse((new User(['email' => 'user@example.com']))->isAdmin());
     }
 }

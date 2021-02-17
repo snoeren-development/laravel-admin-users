@@ -3,10 +3,10 @@ declare(strict_types = 1);
 
 namespace SnoerenDevelopment\AdminUsers\Tests;
 
-use Illuminate\Database\Eloquent\Model;
 use SnoerenDevelopment\AdminUsers\Adminable;
+use Illuminate\Foundation\Auth\User as AuthUser;
 
-class User extends Model
+class User extends AuthUser
 {
     use Adminable;
 
