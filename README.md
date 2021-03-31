@@ -75,7 +75,6 @@ You can publish the configuration file to your project using
 Publish and run the migration or manually add the `is_admin` column to your users
 table. Set the driver to `mysql` in your `.env` file using `ADMINS_DRIVER=mysql`.
 
-### Using the
 
 ## Testing
 ```bash
