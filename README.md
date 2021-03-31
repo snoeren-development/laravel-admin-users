@@ -50,27 +50,32 @@ public function boot()
 }
 ```
 
-### Check for administrators using the Gate
-```php
-// AuthServiceProvider.php
+### Using the gate via Blade
+```blade
+{{-- Using the gate via the can-statement. --}}
+@can('admin')
+    The current user is an admin!
+@else
+    The current user is not an admin!
+@endcan
 
-use Illuminate\Support\Facades\Gate;
-
-public function boot()
-{
-    $this->registerPolicies();
-
-    Gate::define('admin', function (User $user) {
-        if ($user->isAdmin()) {
-            return true;
-        }
-    });
-}
+{{-- Using the custom if-statement --}}
+@admin
+    The current user is an admin!
+@else
+    The current user is not an admin!
+@endadmin
 ```
 
 ### Publishing the configuration file
 You can publish the configuration file to your project using
 `php artisan vendor:publish`. Then select the admin package.
+
+### Using the MySQL driver
+Publish and run the migration or manually add the `is_admin` column to your users
+table. Set the driver to `mysql` in your `.env` file using `ADMINS_DRIVER=mysql`.
+
+### Using the
 
 ## Testing
 ```bash

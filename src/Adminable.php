@@ -12,6 +12,16 @@ trait Adminable
      */
     public function isAdmin(): bool
     {
-        return in_array($this->email, config('admins.admins'));
+        return app(Driver::class)->isAdmin($this->getAdminEmail());
+    }
+
+    /**
+     * Retrieve the email to check admin status against.
+     *
+     * @return string
+     */
+    public function getAdminEmail(): string
+    {
+        return $this->email;
     }
 }

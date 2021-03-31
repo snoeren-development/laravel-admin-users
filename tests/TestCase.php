@@ -44,6 +44,7 @@ abstract class TestCase extends OrchestraTestCase
     protected function getEnvironmentSetUp($app)
     {
         $app['config']->set('admins.admins', ['admin@example.com']);
+        $app['config']->set('admins.driver', 'config');
     }
 
     /**
