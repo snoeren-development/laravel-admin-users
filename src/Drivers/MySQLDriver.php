@@ -13,7 +13,7 @@ class MySQLDriver implements Driver
      *
      * @var array
      */
-    protected array $emails;
+    protected $emails;
 
     /**
      * Constructor

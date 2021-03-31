@@ -12,7 +12,7 @@ class ConfigDriver implements Driver
      *
      * @var array
      */
-    protected array $emails;
+    protected $emails;
 
     /**
      * Constructor
