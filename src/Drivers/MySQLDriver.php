@@ -23,7 +23,7 @@ class MySQLDriver implements Driver
     public function __construct()
     {
         $this->emails = DB::table('users')
-            ->where('is_admin')
+            ->where('is_admin', 1)
             ->get('email')
             ->pluck('email');
     }
