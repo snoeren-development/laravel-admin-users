@@ -46,7 +46,7 @@ class MySQLDriver implements Driver
     /**
      * Retrieve the list of emails.
      *
-     * @return array
+     * @return string[]
      */
     public function getEmails(): array
     {
