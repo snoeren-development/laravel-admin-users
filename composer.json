@@ -1,6 +1,12 @@
 {
     "name": "snoeren-development/laravel-admin-users",
     "description": "Define and check for admin users in your application!",
+    "keywords": [
+        "laravel",
+        "admin",
+        "middleware"
+    ],
+    "type": "laravel-package",
     "require": {
         "php": "^7.3|^8.0",
         "illuminate/support": "^7.0|^8.0"
