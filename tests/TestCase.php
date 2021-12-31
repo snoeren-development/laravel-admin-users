@@ -3,7 +3,9 @@ declare(strict_types = 1);
 
 namespace SnoerenDevelopment\AdminUsers\Tests;
 
-use Route;
+// use Route;
+
+use Illuminate\Support\Facades\Route;
 use SnoerenDevelopment\AdminUsers\AdminMiddleware;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
 use SnoerenDevelopment\AdminUsers\AdminUsersServiceProvider;
@@ -26,9 +28,9 @@ abstract class TestCase extends OrchestraTestCase
      * Get package providers.
      *
      * @param  \Illuminate\Foundation\Application $app The container object.
-     * @return array
+     * @return string[]
      */
-    protected function getPackageProviders($app)
+    protected function getPackageProviders($app): array
     {
         return [
             AdminUsersServiceProvider::class,
@@ -41,7 +43,7 @@ abstract class TestCase extends OrchestraTestCase
      * @param  \Illuminate\Foundation\Application $app The container object.
      * @return void
      */
-    protected function getEnvironmentSetUp($app)
+    protected function getEnvironmentSetUp($app): void
     {
         $app['config']->set('admins.admins', ['admin@example.com']);
         $app['config']->set('admins.driver', 'config');
@@ -52,7 +54,7 @@ abstract class TestCase extends OrchestraTestCase
      *
      * @return void
      */
-    protected function setupRoutes()
+    protected function setupRoutes(): void
     {
         Route::get('admin-route', ['middleware' => AdminMiddleware::class, function () {
             return 'admin content';

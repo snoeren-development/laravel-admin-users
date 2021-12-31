@@ -14,7 +14,7 @@ composer require snoeren-development/laravel-admin-users
 ```
 
 ### Requirements
-This package requires at least PHP 7.3 and Laravel 7.
+This package requires at least PHP 7.4 and Laravel 7.
 
 ## Usage
 Add the `SnoerenDevelopment\AdminUsers\Adminable` trait to your user model and
