@@ -8,13 +8,13 @@
     ],
     "type": "laravel-package",
     "require": {
-        "php": "^7.4|^8.0",
+        "php": "^8.0",
         "illuminate/support": "^8.0|^9.0"
     },
     "require-dev": {
-        "orchestra/testbench": "^6.12",
+        "orchestra/testbench": "^v7.9.0",
         "phpunit/phpunit": "^9.5",
-        "spatie/macroable": "^1.0"
+        "spatie/macroable": "^2.0.0"
     },
     "autoload": {
         "psr-4": {

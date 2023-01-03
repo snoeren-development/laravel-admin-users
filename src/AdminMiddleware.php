@@ -14,7 +14,7 @@ class AdminMiddleware
      * @param  \Closure                 $next    The next handler.
      * @return mixed
      */
-    public function handle($request, Closure $next)
+    public function handle($request, Closure $next) // phpcs:ignore
     {
         $user = $request->user();
 

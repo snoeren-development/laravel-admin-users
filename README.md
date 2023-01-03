@@ -1,7 +1,7 @@
 # Laravel Admin Users
 [![Latest version on Packagist](https://img.shields.io/packagist/v/snoeren-development/laravel-admin-users.svg?style=flat-square)](https://packagist.org/packages/snoeren-development/laravel-admin-users)
 [![Software License](https://img.shields.io/github/license/snoeren-development/laravel-admin-users?style=flat-square)](LICENSE)
-[![Build status](https://img.shields.io/github/workflow/status/snoeren-development/laravel-admin-users/PHP%20Tests?style=flat-square)](https://github.com/snoeren-development/laravel-admin-users/actions)
+[![Build status](https://img.shields.io/github/actions/workflow/status/snoeren-development/laravel-admin-users/php.yml?branch=main&style=flat-square)](https://github.com/snoeren-development/laravel-admin-users/actions)
 [![Downloads](https://img.shields.io/packagist/dt/snoeren-development/laravel-admin-users?style=flat-square)](https://packagist.org/packages/snoeren-development/laravel-admin-users)
 
 This small package adds a configuration and user model trait to define
@@ -14,7 +14,7 @@ composer require snoeren-development/laravel-admin-users
 ```
 
 ### Requirements
-This package requires at least PHP 7.4 and Laravel 7.
+This package requires at least PHP 8.0 and Laravel 8.
 
 ## Usage
 Add the `SnoerenDevelopment\AdminUsers\Adminable` trait to your user model and

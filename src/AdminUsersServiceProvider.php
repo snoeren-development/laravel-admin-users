@@ -40,9 +40,7 @@ class AdminUsersServiceProvider extends ServiceProvider
         $this->app->bind(Driver::class, 'admins.driver.' . config('admins.driver'));
 
         // Register the gate.
-        Gate::define('admin', function ($user) {
-            return $user->isAdmin();
-        });
+        Gate::define('admin', fn ($user): bool => $user->isAdmin());
 
         // Register the Blade statement.
         Blade::if('admin', function () {
