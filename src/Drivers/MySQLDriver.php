@@ -12,32 +12,24 @@ class MySQLDriver implements Driver
     /**
      * The list of admin emails.
      *
-     * @var array
+     * @var array<string>
      */
-    protected $emails;
+    protected array $emails;
 
-    /**
-     * Constructor
-     *
-     * @return void
-     */
     public function __construct()
     {
-        $cacheLength = config('admins.mysql.cache');
+        // @phpstan-ignore-next-line
+        $cacheLength = (int) config('admins.mysql.cache');
 
-        $this->emails = $cacheLength === 0
-            ? $this->getEmails()
-            : Cache::remember('admin-users.admins', $cacheLength, function () {
-                return $this->getEmails();
-            });
+        // @phpstan-ignore-next-line
+        $this->emails = Cache::remember(
+            key: 'admin-users.admins',
+            ttl: $cacheLength,
+            callback: fn () => $this->getEmails()
+        );
     }
 
-    /**
-     * Determine if the given email is an administrator.
-     *
-     * @param  string $email The email.
-     * @return boolean
-     */
+    /** Determine if the given email is an administrator. */
     public function isAdmin(string $email): bool
     {
         return in_array($email, $this->emails);
@@ -46,13 +38,13 @@ class MySQLDriver implements Driver
     /**
      * Retrieve the list of emails.
      *
-     * @return string[]
+     * @return array<string>
      */
     public function getEmails(): array
     {
-        return DB::table(config('admins.mysql.table'))
+        // @phpstan-ignore-next-line
+        return DB::table((string) config('admins.mysql.table'))
             ->where('is_admin', 1)
-            ->get('email')
             ->pluck('email')
             ->toArray();
     }

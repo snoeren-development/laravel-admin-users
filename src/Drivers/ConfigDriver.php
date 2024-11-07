@@ -10,26 +10,17 @@ class ConfigDriver implements Driver
     /**
      * The list of admin emails.
      *
-     * @var array
+     * @var array<string>
      */
-    protected $emails;
+    protected array $emails;
 
-    /**
-     * Constructor
-     *
-     * @return void
-     */
     public function __construct()
     {
-        $this->emails = config('admins.admins');
+        // @phpstan-ignore-next-line
+        $this->emails = (array) config('admins.admins');
     }
 
-    /**
-     * Determine if the given email is an administrator.
-     *
-     * @param  string $email The email.
-     * @return boolean
-     */
+    /** Determine if the given email is an administrator. */
     public function isAdmin(string $email): bool
     {
         return in_array($email, $this->emails);

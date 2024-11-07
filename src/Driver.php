@@ -5,11 +5,6 @@ namespace SnoerenDevelopment\AdminUsers;
 
 interface Driver
 {
-    /**
-     * Determine if the given email is an administrator.
-     *
-     * @param  string $email The email.
-     * @return boolean
-     */
+    /** Determine if the given email is an administrator. */
     public function isAdmin(string $email): bool;
 }

@@ -3,6 +3,7 @@ declare(strict_types = 1);
 
 namespace SnoerenDevelopment\AdminUsers;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
@@ -11,11 +12,6 @@ use SnoerenDevelopment\AdminUsers\Drivers\ConfigDriver;
 
 class AdminUsersServiceProvider extends ServiceProvider
 {
-    /**
-     * Boot the service provider.
-     *
-     * @return void
-     */
     public function boot(): void
     {
         if ($this->app->runningInConsole()) {
@@ -43,18 +39,9 @@ class AdminUsersServiceProvider extends ServiceProvider
         Gate::define('admin', fn ($user): bool => $user->isAdmin());
 
         // Register the Blade statement.
-        Blade::if('admin', function () {
-            /** @var \Illuminate\Contracts\Auth\Access\Authorizable $user */
-            $user = auth()->user();
-            return $user && $user->can('admin');
-        });
+        Blade::if('admin', fn () => (bool) Auth::user()?->can('admin'));
     }
 
-    /**
-     * Register the service provider.
-     *
-     * @return void
-     */
     public function register(): void
     {
         $this->mergeConfigFrom(__DIR__ . '/../config/admins.php', 'admins');

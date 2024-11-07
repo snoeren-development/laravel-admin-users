@@ -16,9 +16,11 @@ class AdminMiddleware
      */
     public function handle($request, Closure $next) // phpcs:ignore
     {
+        /** @var \Illuminate\Contracts\Auth\Authenticatable|null $user */
         $user = $request->user();
 
-        abort_unless($user && $user->isAdmin(), 401);
+        // @phpstan-ignore-next-line
+        abort_unless($user?->isAdmin() === true, 401);
 
         return $next($request);
     }

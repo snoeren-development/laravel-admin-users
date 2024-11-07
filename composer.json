@@ -12,8 +12,9 @@
         "illuminate/support": "^10.0|^11.0"
     },
     "require-dev": {
-        "orchestra/testbench": "^v9.0.1",
-        "phpunit/phpunit": "^11.0.8",
+        "larastan/larastan": "^2.9",
+        "orchestra/testbench": "^v9.5.2",
+        "phpunit/phpunit": "^11.4.3",
         "spatie/macroable": "^2.0.0"
     },
     "autoload": {
@@ -35,7 +36,7 @@
     ],
     "minimum-stability": "stable",
     "scripts": {
-        "test": "vendor/bin/phpunit ./tests"
+        "test": "vendor/bin/phpunit ./tests && vendor/bin/phpstan"
     },
     "config": {
         "sort-packages": true
