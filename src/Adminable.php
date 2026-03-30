@@ -3,7 +3,7 @@ declare(strict_types = 1);
 
 namespace SnoerenDevelopment\AdminUsers;
 
-trait Adminable
+trait Adminable // @phpstan-ignore-line
 {
     /** Determine whether the model has admin rights. */
     public function isAdmin(): bool

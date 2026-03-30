@@ -5,6 +5,7 @@ namespace SnoerenDevelopment\AdminUsers\Drivers;
 
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Config;
 use SnoerenDevelopment\AdminUsers\Driver;
 
 class MySQLDriver implements Driver
@@ -21,7 +22,6 @@ class MySQLDriver implements Driver
         // @phpstan-ignore-next-line
         $cacheLength = (int) config('admins.mysql.cache');
 
-        // @phpstan-ignore-next-line
         $this->emails = Cache::remember(
             key: 'admin-users.admins',
             ttl: $cacheLength,
@@ -43,7 +43,7 @@ class MySQLDriver implements Driver
     public function getEmails(): array
     {
         // @phpstan-ignore-next-line
-        return DB::table((string) config('admins.mysql.table'))
+        return DB::table(Config::string('admins.mysql.table'))
             ->where('is_admin', 1)
             ->pluck('email')
             ->toArray();
