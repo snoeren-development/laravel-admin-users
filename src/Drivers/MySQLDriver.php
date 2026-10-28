@@ -3,49 +3,75 @@ declare(strict_types = 1);
 
 namespace SnoerenDevelopment\AdminUsers\Drivers;
 
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\Config;
+use Illuminate\Contracts\Cache\Repository as Cache;
+use Illuminate\Contracts\Config\Repository as Config;
+use Illuminate\Database\ConnectionResolverInterface;
 use SnoerenDevelopment\AdminUsers\Driver;
+use SnoerenDevelopment\AdminUsers\Support\Emails;
 
 class MySQLDriver implements Driver
 {
-    /**
-     * The list of admin emails.
-     *
-     * @var array<string>
-     */
-    protected array $emails;
+    /** The cache key used to store the admin emails. */
+    public const string CACHE_KEY = 'admin-users.admins';
 
-    public function __construct()
-    {
-        // @phpstan-ignore-next-line
-        $cacheLength = (int) config('admins.mysql.cache');
-
-        $this->emails = Cache::remember(
-            key: 'admin-users.admins',
-            ttl: $cacheLength,
-            callback: fn () => $this->getEmails()
-        );
+    public function __construct(
+        protected Config $config,
+        protected Cache $cache,
+        protected ConnectionResolverInterface $db,
+    ) {
+        //
     }
 
     /** Determine if the given email is an administrator. */
     public function isAdmin(string $email): bool
     {
-        return in_array($email, $this->emails);
+        return Emails::contains($this->getCachedEmails(), $email);
     }
 
     /**
-     * Retrieve the list of emails.
+     * Retrieve the (cached) list of emails.
      *
-     * @return array<string>
+     * @return list<string>
+     */
+    public function getCachedEmails(): array
+    {
+        $ttl = $this->config->get('admins.mysql.cache', 60);
+        $ttl = is_numeric($ttl) ? (int) $ttl : 60;
+
+        if ($ttl <= 0) {
+            return $this->getEmails();
+        }
+
+        return Emails::normalize($this->cache->remember(
+            self::CACHE_KEY,
+            $ttl,
+            fn (): array => $this->getEmails(),
+        ));
+    }
+
+    /**
+     * Retrieve the list of emails from the database.
+     *
+     * @return list<string>
      */
     public function getEmails(): array
     {
-        // @phpstan-ignore-next-line
-        return DB::table(Config::string('admins.mysql.table'))
-            ->where('is_admin', 1)
-            ->pluck('email')
-            ->toArray();
+        $connection = $this->config->get('admins.mysql.connection');
+        $table = $this->config->get('admins.mysql.table', 'users');
+
+        return Emails::normalize(
+            $this->db
+                ->connection(is_string($connection) && $connection !== '' ? $connection : null)
+                ->table(is_string($table) && $table !== '' ? $table : 'users')
+                ->where('is_admin', true)
+                ->pluck('email')
+                ->all()
+        );
+    }
+
+    /** Forget the cached list of emails. */
+    public function flush(): void
+    {
+        $this->cache->forget(self::CACHE_KEY);
     }
 }

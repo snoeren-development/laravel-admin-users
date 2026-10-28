@@ -4,23 +4,25 @@ declare(strict_types = 1);
 namespace SnoerenDevelopment\AdminUsers;
 
 use Closure;
+use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class AdminMiddleware
 {
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request $request The request object.
-     * @param  \Closure                 $next    The next handler.
-     * @return mixed
+     * Guests receive a 401 Unauthorized response, authenticated users without
+     * admin rights receive a 403 Forbidden response.
+     *
+     * @param \Closure(\Illuminate\Http\Request): \Symfony\Component\HttpFoundation\Response $next
      */
-    public function handle($request, Closure $next) // phpcs:ignore
+    public function handle(Request $request, Closure $next): Response
     {
-        /** @var \Illuminate\Contracts\Auth\Authenticatable|null $user */
         $user = $request->user();
 
-        // @phpstan-ignore-next-line
-        abort_unless($user?->isAdmin() === true, 401);
+        abort_if($user === null, 401);
+        abort_unless(AdminUsers::check($user), 403);
 
         return $next($request);
     }
