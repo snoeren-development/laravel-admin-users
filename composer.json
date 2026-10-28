@@ -9,13 +9,17 @@
     "type": "laravel-package",
     "require": {
         "php": "^8.3",
-        "illuminate/support": ">=10"
+        "illuminate/auth": "^12.0 || ^13.0",
+        "illuminate/cache": "^12.0 || ^13.0",
+        "illuminate/database": "^12.0 || ^13.0",
+        "illuminate/http": "^12.0 || ^13.0",
+        "illuminate/support": "^12.0 || ^13.0",
+        "illuminate/view": "^12.0 || ^13.0"
     },
     "require-dev": {
-        "larastan/larastan": "^3",
-        "orchestra/testbench": "^11",
-        "phpunit/phpunit": "^12",
-        "spatie/macroable": "^2.0.0"
+        "larastan/larastan": "^3.0",
+        "orchestra/testbench": "^10.0 || ^11.0",
+        "phpunit/phpunit": "^11.5 || ^12.0"
     },
     "autoload": {
         "psr-4": {
@@ -35,8 +39,12 @@
         }
     ],
     "minimum-stability": "stable",
+    "prefer-stable": true,
     "scripts": {
-        "test": "vendor/bin/phpunit ./tests && vendor/bin/phpstan"
+        "test": [
+            "vendor/bin/phpunit",
+            "vendor/bin/phpstan"
+        ]
     },
     "config": {
         "sort-packages": true

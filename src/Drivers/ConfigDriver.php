@@ -3,26 +3,30 @@ declare(strict_types = 1);
 
 namespace SnoerenDevelopment\AdminUsers\Drivers;
 
+use Illuminate\Contracts\Config\Repository;
 use SnoerenDevelopment\AdminUsers\Driver;
+use SnoerenDevelopment\AdminUsers\Support\Emails;
 
 class ConfigDriver implements Driver
 {
-    /**
-     * The list of admin emails.
-     *
-     * @var array<string>
-     */
-    protected array $emails;
-
-    public function __construct()
+    public function __construct(protected Repository $config)
     {
-        // @phpstan-ignore-next-line
-        $this->emails = (array) config('admins.admins');
+        //
     }
 
     /** Determine if the given email is an administrator. */
     public function isAdmin(string $email): bool
     {
-        return in_array($email, $this->emails);
+        return Emails::contains($this->getEmails(), $email);
+    }
+
+    /**
+     * Retrieve the list of emails.
+     *
+     * @return list<string>
+     */
+    public function getEmails(): array
+    {
+        return Emails::normalize($this->config->get('admins.admins', []));
     }
 }

@@ -22,10 +22,14 @@ return [
     |
     | Define your application administrators here using a comma-separated
     | list of email addresses. Also, don't forget to use the "config" driver.
+    | Surrounding whitespace and empty entries are ignored.
     |
     */
 
-    'admins' => (array) explode(',', env('ADMINS', '')),
+    'admins' => array_values(array_filter(
+        array_map('trim', explode(',', (string) env('ADMINS', ''))),
+        static fn (string $email): bool => $email !== '',
+    )),
 
     /*
     |--------------------------------------------------------------------------
@@ -45,11 +49,16 @@ return [
     | emails. Make sure this table contains an "email" and "is_admin" column.
     | Default: users
     |
+    | connection
+    | ---
+    | The database connection to use. Leave empty to use the default one.
+    |
     */
 
     'mysql' => [
         'cache' => (int) env('ADMINS_MYSQL_CACHE', 60),
         'table' => env('ADMINS_MYSQL_TABLE', 'users'),
+        'connection' => env('ADMINS_MYSQL_CONNECTION'),
     ],
 
 ];

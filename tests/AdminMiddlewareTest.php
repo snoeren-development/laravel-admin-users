@@ -3,47 +3,42 @@ declare(strict_types = 1);
 
 namespace SnoerenDevelopment\AdminUsers\Tests;
 
+use Illuminate\Foundation\Auth\User as AuthUser;
+
 class AdminMiddlewareTest extends TestCase
 {
-    /**
-     * Test if a guest receives an unauthorized error.
-     *
-     * @return void
-     */
+    /** Test if a guest receives an unauthorized error. */
     public function testGuestCannotVisitAdminProtectedRoute(): void
     {
         $this
-            ->call('GET', 'admin-route')
+            ->get('admin-route')
             ->assertUnauthorized();
     }
 
-    /**
-     * Test if a user receives an unauthorized error.
-     *
-     * @return void
-     */
+    /** Test if a regular user receives a forbidden error. */
     public function testUserCannotVisitAdminProtectedRoute(): void
     {
-        $user = new User(['email' => 'user@example.com']);
-
         $this
-            ->actingAs($user)
-            ->call('GET', 'admin-route')
-            ->assertUnauthorized();
+            ->actingAs(new User(['email' => 'user@example.com']))
+            ->get('admin-route')
+            ->assertForbidden();
     }
 
-    /**
-     * Test if an admin can pass through the middleware.
-     *
-     * @return void
-     */
+    /** Test if a user model without the Adminable trait is forbidden. */
+    public function testUserWithoutTraitCannotVisitAdminProtectedRoute(): void
+    {
+        $this
+            ->actingAs((new AuthUser)->forceFill(['email' => 'admin@example.com']))
+            ->get('admin-route')
+            ->assertForbidden();
+    }
+
+    /** Test if an admin can pass through the middleware. */
     public function testAdminCanVisitAdminProtectedRoute(): void
     {
-        $user = new User(['email' => 'admin@example.com']);
-
         $this
-            ->actingAs($user)
-            ->call('GET', 'admin-route')
+            ->actingAs(new User(['email' => 'admin@example.com']))
+            ->get('admin-route')
             ->assertOk()
             ->assertSee('admin content');
     }

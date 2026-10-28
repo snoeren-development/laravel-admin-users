@@ -13,7 +13,7 @@ class User extends AuthUser
     /**
      * The attributes that are mass assignable.
      *
-     * @var array
+     * @var list<string>
      */
     protected $fillable = [
         'email',
